@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  article
+    h1 #{title}
+    | Holaa
+
+block footer
+  blockquote #{footer}
+    a(href='https://github.com/cybermarkus1/node_APIrest') Github project
+    a(href='https://bitbucket.org/cybermarkus1/node_apirest', style="margin-left:2%") Bitbucket project
+
+block scripts
+  script(src="js/vendor/jquery/jquery-min.js")
+  script(src="js/vendor/bootstrap/dist/js/bootstrap.min.js")
+  script(src="js/vendor/underscore/underscore-min.js")
+  script(src="js/vendor/backbone/backbone-min.js")

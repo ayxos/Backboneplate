@@ -1,0 +1,18 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bower": "~1.2.7",
+    "express": "3.4.8",
+    "jade": "*",
+    "stylus": "*",
+    "node-uuid": "~1.4.1"
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install"
+  }
+}
