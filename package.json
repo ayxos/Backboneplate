@@ -9,8 +9,7 @@
     "bower": "~1.2.7",
     "express": "3.4.8",
     "jade": "*",
-    "stylus": "*",
-    "node-uuid": "~1.4.1"
+    "stylus": "*"
   },
   "scripts": {
     "postinstall": "node_modules/.bin/bower install"
