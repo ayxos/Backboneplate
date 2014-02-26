@@ -1,4 +1,5 @@
 var fs    = require('fs'),
+  uuid = require('node-uuid'), //para generar identificadores unicos
   baseDeDatos = fs.readFileSync('./routes/datos.json').toString(),
   datos = JSON.parse(baseDeDatos);
 
@@ -36,6 +37,7 @@ exports.getById = function (req, res){
 exports.createNew = function (req, res){
   req.body.id = uuid.v1(4);
   datos.push(req.body);
+  console.log(req);
   res.send(200, {id: req.body.id});
 };
 
