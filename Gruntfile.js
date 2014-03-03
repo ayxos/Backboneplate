@@ -18,6 +18,7 @@ module.exports = function(grunt) {
         eqnull: true,
         node: true,
         indent: 2,
+        devel: true,
         globals: {
           window: true,
           document: true,
@@ -25,35 +26,76 @@ module.exports = function(grunt) {
           define: true,
           require: true,
           requirejs: true,
+          Backbone: true,
+          PeopleCollection:true,
+          PeopleModel:true,
           $: true,
+          _:true,
+          Mustache:true,
+          Rectangulo:true,
         },
-        // ignores: ['public/js/backbone/*.js']
+        ignores: ['public/vendor/**/*.js','public/vendors.min.js','public/backbone.app.js','public/js/backbone/templates/**/*.js']
       },
-      all: ['Gruntfile.js', 'public/js/backbone/*.js']
+      all: ['public/js/backbone/**/*.js']
     },
 
     concat: {
       options: {
         // define a string to put between each file in the concatenated output
-        separator: ';\n'
+        separator: '\n'
       },
-      dist: {
+      vendor: {
         // the files to concatenate
-        src: ['public/js/backbone/*.js','public/vendor/jquery/jquery.min.js','public/vendor/bootstrap/dist/js/bootstrap.min.js','public/vendor/underscore/underscore-min.js','public/vendor/backbone/backbone-min.js'],
+        src: ['public/vendor/jquery/jquery.min.js','public/vendor/bootstrap/dist/js/bootstrap.min.js','public/vendor/underscore/underscore-min.js','public/vendor/backbone/backbone-min.js'],
         // the location of the resulting JS file
         dest: 'public/js/vendors.min.js'
+      },
+      backbone: {
+        // the files to concatenate
+        src: ['public/js/backbone/**/*.js'],
+        // the location of the resulting JS file
+        dest: 'public/js/backbone.app.js'
       }
+
     },
 
     uglify: {
-      my_target: {
+      vendors: {
         files: {
           'public/js/vendors.min.js': ['public/js/vendors.min.js']
+        }
+      },
+      backbonemin: {
+        files: {
+          'public/js/backbone.app.js': ['public/js/backbone.app.js']
         }
       }
     },
 
-    clean: ['public/*.html', 'public/js/*.js', 'public/css/*.min.css'],
+    clean: ['public/*.html', 'public/js/vendors.min.js', 'public/css/*.min.css', 'public/js/backbone/templates/tpl/*'],
+
+
+    jade: {
+      amd: {
+        files: {
+          'public/js/backbone/templates/tpl/': ['public/js/backbone/templates/*.jade']
+        },
+        options: {
+          wrap: {
+            wrap: false,
+            amd: false,
+            node: false,
+            dependencies: 'jade'
+          },
+        // options: {
+        //   client: true,
+        //   wrapper: "jst",
+        //   processName: function(str) { return str.match(/^test\/fixtures\/(.*)\.jade$/)[1]; },
+        // }
+          runtime: true
+        }
+      }
+    },
 
     cssmin: {
       build: {
@@ -61,18 +103,27 @@ module.exports = function(grunt) {
           'public/css/style.min.css': [ 'public/css/style.css', 'public/vendor/bootstrap/dist/css/bootstrap.min.css' ]
         }
       }
+    },
+
+    watch: {
+      options: {
+        event: ['added', 'changed']
+      },
+      stylus: {
+        files: ['public/**/*.css'],
+        tasks: ['cssmin']
+      },
+      jade: {
+        files: ['public/js/templates/*.jade'],
+        tasks: ['newer:jade','jade']
+      },
+      backbone: {
+        files: ['public/js/backbone/**/*.js'],
+        tasks: ['jshint','concat:backbone','uglify:backbonemin']
+      }
     }
 
-    // watch: {
-    //   options: {
-    //     livereload: true,
-    //     event: ['added', 'changed']
-    //   },
-    //   clean: ['public/*.html'],
-    // }
-
   });
-
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -85,9 +136,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   // Remove files
   grunt.loadNpmTasks('grunt-contrib-clean');
+  // Compile Jade templates to JavaScript
+  grunt.loadNpmTasks('grunt-jade');
+  // watch newer files
+  grunt.loadNpmTasks('grunt-newer');
 
-
+  //production task
+  grunt.registerTask('production', ['jshint', 'clean','jade', 'concat', 'uglify', 'cssmin']);
   //default task
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'clean','jade', 'concat', 'cssmin']);
 
 };

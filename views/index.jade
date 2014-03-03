@@ -5,11 +5,58 @@ block content
     h1 #{title}
     | Holaa
 
+    //- .addCommentForm
+    //-   form( method="post", action="/api/entries")
+    //-     div
+    //-       div
+    //-         span.label Name :
+    //-         input(name="name")
+    //-       div
+    //-         span.label Surname :
+    //-         input(name="surname")
+    //-       div
+    //-         span.label Age :
+    //-         input(name="age")
+    //-       div#addCommentSubmit
+    //-         input(type="submit", value="Add entry")
+
+    .addCommentForm
+        div
+          div
+            span.label Name :
+            input(name="name")
+          div
+            span.label Surname :
+            input(name="surname")
+          div
+            span.label Age :
+            input(name="age")
+          div#addCommentSubmit
+            input#adding(type="submit", value="Add entry")
+
+    #backbone
+
+    #entries
+      - each entry in entries
+          .entry(style="padding:2%;border:1px solid #51b6ae ")
+            span #{entry}
+            br
+
+            a#api(href='api/#{entry.id}', style="display:inline-block")
+              input(type='submit', value='View JSON')
+            a#api(href='api/entries/#{entry.id}', style="display:inline-block")
+              input(type='submit', value='View API')
+            input.del(type='submit', value='Delete', data-id='#{entry.id}')
+
 block footer
   blockquote #{footer}
     a(href='https://github.com/cybermarkus1/node_APIrest') Github project
     a(href='https://bitbucket.org/cybermarkus1/node_apirest', style="margin-left:2%") Bitbucket project
 
 block scripts
-  //- backbone app
-  script(src="/js/backbone/models/libro.js")
+  scripts(src="/js/backbone/templates/tpl/people.js")
+  script(src="/js/backbone.app.js")
+  script(src="/js/init.js")
+
+
+

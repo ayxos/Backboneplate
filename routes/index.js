@@ -1,72 +1,94 @@
-var fs    = require('fs'),
-  uuid = require('node-uuid'), //para generar identificadores unicos
-  baseDeDatos = fs.readFileSync('./routes/datos.json').toString(),
-  datos = JSON.parse(baseDeDatos);
+var mongoose = require( 'mongoose' );
+//To use the model I created a variable regModel
+var regModel = mongoose.model( 'Model_name');
 
 
-exports.Main = function (req, res){
-  res.render( 'index', {
-      title : 'RestAPI System with Mongoose and Node/Express',
-      footer : '@2014 by M.A.P.S Powered by Node.js, Express, MongoDB '
+exports.getAll = function (req, res){
+  regModel.find(function (err, entries) {
+    if (!err) {
+      res.render( 'index', {
+          title : 'RestAPI System with Mongoose and Node/Express',
+          footer : '@2014 by M.A.P.S Powered by Node.js, Express, MongoDB ',
+          entries : entries
+      });
+    } else {
+      console.log(err);
+    }
   });
 };
 
-exports.ShowAll = function (req, res){
-  res.send(datos);
+exports.getTodo = function (req, res){
+  regModel.find(function (err, entries) {
+    if (!err) {
+      res.send(entries);
+    } else {
+      console.log(err);
+    }
+  });
+};
+
+exports.postnew = function (req, res){
+  var entry;
+  console.log("POST: " + req.params + req.body + req.query);
+  entry = new regModel();
+  for (key in req.body){
+    entry[key] = req.body[key];
+  }
+  entry.save(function (err) {
+    if (!err) {
+      console.log("created");
+      res.redirect('/');
+    } else {
+      console.log(err);
+      res.redirect('/');
+    }
+  });
 };
 
 exports.getById = function (req, res){
-  var dato;
-
-  for ( var i=0; i<datos.length; i++ ) {
-    var libro = datos[i];
-
-    if (libro.id === req.params.id) {
-      dato = libro;
+  regModel.findById(req.params.id, function (err, entry) {
+    if (!err) {
+      res.send(entry);
+    } else {
+      console.log(err);
     }
-  }
-
-  if (dato) {
-    res.send(dato);
-  } else {
-    res.statusCode = 500;
-    return res.send('No se encuentra el id.');
-  }
+  });
 };
 
-exports.createNew = function (req, res){
-  req.body.id = uuid.v1(4);
-  datos.push(req.body);
-  console.log(req);
-  res.send(200, {id: req.body.id});
+
+exports.putById = function (req, res){
+  console.log(req.body);
+  regModel.findById(req.params.id, function (err, entry) {
+    for (key in req.body){
+      entry[key] = req.body[key];
+    }
+    entry.save(function (err) {
+      if (!err) {
+        console.log("updated");
+        //Es imprescindible devolver datos, en este caso las llaves
+        res.send(201, {});
+      } else {
+        console.log(err);
+        res.send(500, "updated error");
+      }
+      // res.send(entry);
+    });
+  });
 };
 
-exports.update = function (req, res){
-  var libro;
-
-  for (var i = datos.length - 1; i >= 0; i--) {
-    libro = datos[i];
-
-    if(libro.id === req.params.id){
-      datos[i] = req.body;
-    }
-  }
-
-  res.send(200);
-};
-
-exports.del = function (req, res){
-   var elementoEliminar;
-
-  for ( var i=0; i<datos.length; i++ ) {
-    var libro = datos[i];
-
-    if (libro.id === req.params.id) {
-      elementoEliminar = i;
-    }
-  }
-
-  datos.splice(elementoEliminar, 1);
-
-  res.send(200);
+exports.deleteById = function (req, res){
+  // console.log(req);
+  console.log('DELETED: ' + req.params.id);
+  //hay que fijarse en si es QUERY o UN Param
+  regModel.findById(req.params.id, function (err, entry) {
+    entry.remove(function (err) {
+      if (!err) {
+        console.log("removed");
+        res.send(201, "Removed: " + req.params.id);
+      } else {
+        console.log(err);
+        res.send(500, "removed error");
+      }
+    });
+  });
 };

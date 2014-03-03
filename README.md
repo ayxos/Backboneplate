@@ -25,3 +25,5 @@ Usage:
     eb2.save();
     eb2.toJSON();
 
+    mongod bafore nothing
+
