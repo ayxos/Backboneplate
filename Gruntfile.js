@@ -75,24 +75,34 @@ module.exports = function(grunt) {
     clean: ['public/*.html', 'public/js/vendors.min.js', 'public/css/*.min.css', 'public/js/backbone/templates/tpl/*'],
 
 
+    // jade: {
+    //   amd: {
+    //     files: {
+    //       'public/js/backbone/templates/tpl/': ['public/js/backbone/templates/*.jade']
+    //     },
+    //     options: {
+    //       wrap: {
+    //         wrap: false,
+    //         amd: false,
+    //         node: false,
+    //         dependencies: 'jade'
+    //       },
+    //     // options: {
+    //     //   client: true,
+    //     //   wrapper: "jst",
+    //     //   processName: function(str) { return str.match(/^test\/fixtures\/(.*)\.jade$/)[1]; },
+    //     // }
+    //       runtime: true
+    //     }
+    //   }
+    // },
     jade: {
       amd: {
-        files: {
-          'public/js/backbone/templates/tpl/': ['public/js/backbone/templates/*.jade']
-        },
-        options: {
-          wrap: {
-            wrap: false,
-            amd: false,
-            node: false,
-            dependencies: 'jade'
-          },
-        // options: {
-        //   client: true,
-        //   wrapper: "jst",
-        //   processName: function(str) { return str.match(/^test\/fixtures\/(.*)\.jade$/)[1]; },
-        // }
-          runtime: true
+        src: ['public/js/backbone/templates/*.jade'],
+        dest: 'public/js/backbone/templates/tpl/',
+        wrapper: {
+          amd: true,
+          dependencies: 'jade'
         }
       }
     },

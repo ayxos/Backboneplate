@@ -1,4 +1,5 @@
-jade = (function(exports){
+define([], function(){
+  var exports = {};
   
 /*!
  * Jade - runtime
@@ -175,4 +176,4 @@ exports.rethrow = function rethrow(err, filename, lineno){
 };
 
   return exports;
-})({});
+});

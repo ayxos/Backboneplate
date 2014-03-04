@@ -3,37 +3,23 @@ extends layout
 block content
   article
     h1 #{title}
-    | Holaa
 
-    //- .addCommentForm
-    //-   form( method="post", action="/api/entries")
-    //-     div
-    //-       div
-    //-         span.label Name :
-    //-         input(name="name")
-    //-       div
-    //-         span.label Surname :
-    //-         input(name="surname")
-    //-       div
-    //-         span.label Age :
-    //-         input(name="age")
-    //-       div#addCommentSubmit
-    //-         input(type="submit", value="Add entry")
-
+    | Node.js API
     .addCommentForm
-        div
-          div
-            span.label Name :
-            input(name="name")
-          div
-            span.label Surname :
-            input(name="surname")
-          div
-            span.label Age :
-            input(name="age")
-          div#addCommentSubmit
-            input#adding(type="submit", value="Add entry")
+      form( method="post", action="/api/entries")
+        input(name="name", placeholder="Name")
+        input(name="surname", placeholder="Surname")
+        input(name="age", placeholder="age")
+        input(type="submit", value="Add entry")
 
+    | Backbone form
+    .persona
+      input(name="name", placeholder="Name")
+      input(name="surname", placeholder="Surname")
+      input(name="age", placeholder="age")
+      input#doit(type="submit", value="Add entry")
+
+    | Resultado BB
     #backbone
 
     #entries
@@ -41,11 +27,8 @@ block content
           .entry(style="padding:2%;border:1px solid #51b6ae ")
             span #{entry}
             br
-
-            a#api(href='api/#{entry.id}', style="display:inline-block")
-              input(type='submit', value='View JSON')
             a#api(href='api/entries/#{entry.id}', style="display:inline-block")
-              input(type='submit', value='View API')
+              input(type='submit', value='View JSON')
             input.del(type='submit', value='Delete', data-id='#{entry.id}')
 
 block footer
@@ -54,7 +37,6 @@ block footer
     a(href='https://bitbucket.org/cybermarkus1/node_apirest', style="margin-left:2%") Bitbucket project
 
 block scripts
-  scripts(src="/js/backbone/templates/tpl/people.js")
   script(src="/js/backbone.app.js")
   script(src="/js/init.js")
 
