@@ -22,11 +22,28 @@ var peopleListItemView = Backbone.View.extend({
 
   tagName:"li",
 
+  events: {
+    'click #dele': 'deleteWine'
+  },
+
   initialize:function () {
     // this.template = _.template(tpl.get('people-list-item'));
-    this.template = _.template("<li> nombre: <%= name %> <br> id: <%= _id %> </li>");
+    this.template = _.template("<li> nombre: <%= name %> <br> age: <%= age %> <br> id: <%= _id %> <input id='dele' type='submit' value='Erase'> </li>");
     this.model.bind("change", this.render, this);
-    this.model.bind("destroy", this.close, this);
+    // this.model.bind("destroy", this.close, this);
+  },
+
+  ale:function(){
+    alert('click del');
+  },
+
+  deleteWine: function() {
+    this.model.destroy({
+      success: function() {
+        console.log('Wine deleted successfully');
+      }
+    });
+    return false;
   },
 
   render:function (eventName) {

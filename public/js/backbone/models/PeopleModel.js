@@ -1,5 +1,5 @@
 var PeopleModel = Backbone.Model.extend({
-  urlRoot:'api/entries',
+  idAttribute: '_id',
 
   initialize: function(){
     console.log("Music is the answer");

@@ -1,5 +1,5 @@
 var PeopleModel = Backbone.Model.extend({
-  urlRoot:'api/entries',
+  idAttribute: '_id',
 
   initialize: function(){
     console.log("Music is the answer");
@@ -131,11 +131,28 @@ var peopleListItemView = Backbone.View.extend({
 
   tagName:"li",
 
+  events: {
+    'click #dele': 'deleteWine'
+  },
+
   initialize:function () {
     // this.template = _.template(tpl.get('people-list-item'));
-    this.template = _.template("<li> nombre: <%= name %> <br> id: <%= _id %> </li>");
+    this.template = _.template("<li> nombre: <%= name %> <br> age: <%= age %> <br> id: <%= _id %> <input id='dele' type='submit' value='Erase'> </li>");
     this.model.bind("change", this.render, this);
-    this.model.bind("destroy", this.close, this);
+    // this.model.bind("destroy", this.close, this);
+  },
+
+  ale:function(){
+    alert('click del');
+  },
+
+  deleteWine: function() {
+    this.model.destroy({
+      success: function() {
+        console.log('Wine deleted successfully');
+      }
+    });
+    return false;
   },
 
   render:function (eventName) {
@@ -152,7 +169,7 @@ var PeopleView = Backbone.View.extend({
   // template: _.template("<strong> Esta vista se pinta!! <br> nombre: <%= Name %> <br> apellido: <%= Surname %> <br> Edad: <%= Age %> </strong>"),
 
   events: {
-    'click #doit': 'detect',
+    'click #doit': 'saveModel',
     "click .new" : "newWine"
   },
 
@@ -172,8 +189,31 @@ var PeopleView = Backbone.View.extend({
     alert('hpkjhlkjhlkjhlkhjkl');
   },
 
+  saveModel: function() {
+    console.log('obtengo name : ' + $('#name').val() );
+    this.model.set({
+      name: $('#name').val(),
+      grapes: $('#surname').val(),
+      country: $('#age').val()
+    });
+    if (this.model.isNew()) {
+      var self = this;
+      app.peopleList.create(this.model, {
+        success: function() {
+          alert('now its saved');
+          // app.navigate('wines/'+self.model.id, false);
+        }
+      });
+    } else {
+      this.model.save();
+    }
+
+    return false;
+  },
+
+
   render: function() {
-    console.log("llego hasta aqui");
+    console.log("PeopleView render");
     $(this.el).html(this.template());
     // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
@@ -199,7 +239,7 @@ var AppRouter = Backbone.Router.extend({
   },
 
   list: function() {
-    alert('list');
+    console.log('router.js: loading backbone data');
     this.before();
   },
 

@@ -6,7 +6,7 @@ var PeopleView = Backbone.View.extend({
   // template: _.template("<strong> Esta vista se pinta!! <br> nombre: <%= Name %> <br> apellido: <%= Surname %> <br> Edad: <%= Age %> </strong>"),
 
   events: {
-    'click #doit': 'detect',
+    'click #doit': 'saveModel',
     "click .new" : "newWine"
   },
 
@@ -26,8 +26,31 @@ var PeopleView = Backbone.View.extend({
     alert('hpkjhlkjhlkjhlkhjkl');
   },
 
+  saveModel: function() {
+    console.log('obtengo name : ' + $('#name').val() );
+    this.model.set({
+      name: $('#name').val(),
+      grapes: $('#surname').val(),
+      country: $('#age').val()
+    });
+    if (this.model.isNew()) {
+      var self = this;
+      app.peopleList.create(this.model, {
+        success: function() {
+          alert('now its saved');
+          // app.navigate('wines/'+self.model.id, false);
+        }
+      });
+    } else {
+      this.model.save();
+    }
+
+    return false;
+  },
+
+
   render: function() {
-    console.log("llego hasta aqui");
+    console.log("PeopleView render");
     $(this.el).html(this.template());
     // this.el.innerHTML = this.template(this.model.toJSON());
     return this;

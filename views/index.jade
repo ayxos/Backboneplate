@@ -4,13 +4,13 @@ block content
   article
     h1 #{title}
 
-    | Node.js API
-    .addCommentForm
-      form( method="post", action="/api/entries")
-        input(name="name", placeholder="Name")
-        input(name="surname", placeholder="Surname")
-        input(name="age", placeholder="age")
-        input(type="submit", value="Add entry")
+    //- | Node.js API
+    //- .addCommentForm
+    //-   form( method="post", action="/api/entries")
+    //-     input(name="name", placeholder="Name")
+    //-     input(name="surname", placeholder="Surname")
+    //-     input(name="age", placeholder="age")
+    //-     input(type="submit", value="Add entry")
 
     | Resultado BB
     #backbone
@@ -18,19 +18,19 @@ block content
     | rutas BB
     #sidebar
 
-    #entries
-      - each entry in entries
-          .entry(style="padding:2%;border:1px solid #51b6ae ")
-            span #{entry}
-            br
-            a#api(href='api/entries/#{entry.id}', style="display:inline-block")
-              input(type='submit', value='View JSON')
-            input.del(type='submit', value='Delete', data-id='#{entry.id}')
+    //- #entries
+    //-   - each entry in entries
+    //-       .entry(style="padding:2%;border:1px solid #51b6ae ")
+    //-         span #{entry}
+    //-         br
+    //-         a#api(href='api/entries/#{entry.id}', style="display:inline-block")
+    //-           input(type='submit', value='View JSON')
+    //-         input.del(type='submit', value='Delete', data-id='#{entry.id}')
 
-block footer
-  blockquote #{footer}
-    a(href='https://github.com/cybermarkus1/node_APIrest') Github project
-    a(href='https://bitbucket.org/cybermarkus1/node_apirest', style="margin-left:2%") Bitbucket project
+//- block footer
+//-   blockquote #{footer}
+//-     a(href='https://github.com/cybermarkus1/node_APIrest') Github project
+//-     a(href='https://bitbucket.org/cybermarkus1/node_apirest', style="margin-left:2%") Bitbucket project
 
 block scripts
   script(src="/js/backbone.app.js")

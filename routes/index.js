@@ -84,7 +84,7 @@ exports.deleteById = function (req, res){
     entry.remove(function (err) {
       if (!err) {
         console.log("removed");
-        res.send(201, "Removed: " + req.params.id);
+        res.send(201, "Removed: ");
       } else {
         console.log(err);
         res.send(500, "removed error");

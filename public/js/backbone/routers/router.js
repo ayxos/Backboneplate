@@ -18,7 +18,7 @@ var AppRouter = Backbone.Router.extend({
   },
 
   list: function() {
-    alert('list');
+    console.log('router.js: loading backbone data');
     this.before();
   },
 
