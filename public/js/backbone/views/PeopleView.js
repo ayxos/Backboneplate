@@ -1,4 +1,4 @@
-var Vista = Backbone.View.extend({
+var PeopleView = Backbone.View.extend({
 
   // Function que admita el paso de variables (es un JS). aqui usar los  tpl que genera grunt
   // template: 'this.anonymous()',
@@ -7,7 +7,6 @@ var Vista = Backbone.View.extend({
 
   events: {
     'click #doit': 'detect',
-    "click": "detectClick",
     "click .new" : "newWine"
   },
 
@@ -15,16 +14,12 @@ var Vista = Backbone.View.extend({
     this.template = _.template(tpl.get('people'));
     console.log('template: ' + this.template);
     console.log('model: ' + this.model);
-    this.model.listenTo(this.model, 'change', this.render);
+    // this.model.listenTo(this.model, 'change', this.render);
   },
 
   newWine: function(event) {
     app.navigate("api/entries", true);
     return false;
-  }
-
-  detectClick: function(){
-    alert('click');
   },
 
   detect: function(){
@@ -33,7 +28,8 @@ var Vista = Backbone.View.extend({
 
   render: function() {
     console.log("llego hasta aqui");
-    this.el.innerHTML = this.template(this.model.toJSON());
+    $(this.el).html(this.template());
+    // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   }
 });

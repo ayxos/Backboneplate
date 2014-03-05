@@ -37,10 +37,10 @@ exports.postnew = function (req, res){
   entry.save(function (err) {
     if (!err) {
       console.log("created");
-      res.redirect('/');
+      res.send(201,{});
     } else {
       console.log(err);
-      res.redirect('/');
+      res.send(500, "created error");
     }
   });
 };

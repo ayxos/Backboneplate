@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
+      all: ['public/js/backbone.app.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -29,14 +30,14 @@ module.exports = function(grunt) {
           Backbone: true,
           PeopleCollection:true,
           PeopleModel:true,
+          // Here places words gloabla that not need tobe defined
           $: true,
           _:true,
           Mustache:true,
           Rectangulo:true,
         },
-        ignores: ['public/vendor/**/*.js','public/vendors.min.js','public/backbone.app.js','public/js/backbone/templates/**/*.js']
+        // ignores: ['public/vendor/**/*.js','public/vendors.min.js','public/backbone.app.js','public/js/backbone/templates/**/*.js']
       },
-      all: ['public/js/backbone/**/*.js']
     },
 
     concat: {
@@ -52,7 +53,7 @@ module.exports = function(grunt) {
       },
       backbone: {
         // the files to concatenate
-        src: ['public/js/backbone/**/*.js'],
+        src: ['public/js/backbone/**/*.js', '!public/js/backbone/routers/router.js', 'public/js/backbone/routers/router.js'],
         // the location of the resulting JS file
         dest: 'public/js/backbone.app.js'
       }
@@ -97,15 +98,30 @@ module.exports = function(grunt) {
     //   }
     // },
     jade: {
-      amd: {
-        src: ['public/js/backbone/templates/*.jade'],
-        dest: 'public/js/backbone/templates/tpl/',
-        wrapper: {
-          amd: true,
-          dependencies: 'jade'
-        }
+      compile: {
+        options: {
+          client: false,
+          pretty: true
+        },
+        files: [ {
+          cwd: "public/js/backbone/templates",
+          src: "**/*.jade",
+          dest: "public/js/backbone/templates/tpl",
+          expand: true,
+          ext: ".html"
+        } ]
       }
     },
+    // jade: {
+    //   amd: {
+    //     src: ['public/js/backbone/templates/*.jade'],
+    //     dest: 'public/js/backbone/templates/tpl/',
+    //     wrapper: {
+    //       amd: true,
+    //       dependencies: 'jade'
+    //     }
+    //   }
+    // },
 
     cssmin: {
       build: {
@@ -147,13 +163,17 @@ module.exports = function(grunt) {
   // Remove files
   grunt.loadNpmTasks('grunt-contrib-clean');
   // Compile Jade templates to JavaScript
-  grunt.loadNpmTasks('grunt-jade');
+  // grunt.loadNpmTasks('grunt-jade');
   // watch newer files
   grunt.loadNpmTasks('grunt-newer');
 
   //production task
-  grunt.registerTask('production', ['jshint', 'clean','jade', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('production', ['clean','jade', 'concat', 'jshint', 'uglify', 'cssmin']);
   //default task
-  grunt.registerTask('default', ['jshint', 'clean','jade', 'concat', 'cssmin']);
+  grunt.registerTask('default', ['clean','jade', 'concat', 'jshint', 'cssmin']);
+
+  //untest task
+  grunt.registerTask('notest', ['clean','jade', 'concat','cssmin']);
+
 
 };

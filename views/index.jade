@@ -12,15 +12,11 @@ block content
         input(name="age", placeholder="age")
         input(type="submit", value="Add entry")
 
-    | Backbone form
-    .persona
-      input(name="name", placeholder="Name")
-      input(name="surname", placeholder="Surname")
-      input(name="age", placeholder="age")
-      input#doit(type="submit", value="Add entry")
-
     | Resultado BB
     #backbone
+
+    | rutas BB
+    #sidebar
 
     #entries
       - each entry in entries
@@ -38,7 +34,6 @@ block footer
 
 block scripts
   script(src="/js/backbone.app.js")
-  script(src="/js/init.js")
 
 
 

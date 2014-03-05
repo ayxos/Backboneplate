@@ -1,7 +1,9 @@
 var PeopleModel = Backbone.Model.extend({
+  urlRoot:'api/entries',
+
   initialize: function(){
-      console.log("Music is the answer");
-    },
+    console.log("Music is the answer");
+  },
   defaults: {
     Name: 'Untitled',
     Surname: 'Unknown',
@@ -16,7 +18,7 @@ var PeopleModel = Backbone.Model.extend({
 var PeopleCollection;
 PeopleCollection = Backbone.Collection.extend({
   model: PeopleModel,
-  url: "/api/entries/",
+  url: "api/entries",
 
   initialize: function() {
     return this.filter(function(pers) {
