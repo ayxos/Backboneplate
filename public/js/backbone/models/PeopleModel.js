@@ -2,12 +2,12 @@ var PeopleModel = Backbone.Model.extend({
   idAttribute: '_id',
 
   initialize: function(){
-    console.log("Music is the answer");
+    console.log("Model has been initzialized");
   },
   defaults: {
-    Name: 'Untitled',
-    Surname: 'Unknown',
-    Age: '0'
+    name: 'Untitled',
+    surname: 'Unknown',
+    age: '0'
   },
 
   displayString: function() {
@@ -15,16 +15,16 @@ var PeopleModel = Backbone.Model.extend({
   }
 });
 
-var PeopleCollection;
-PeopleCollection = Backbone.Collection.extend({
+var PeopleCollection = Backbone.Collection.extend({
+  idAttribute: '_id',
   model: PeopleModel,
   url: "api/entries",
 
-  initialize: function() {
-    return this.filter(function(pers) {
-      console.log(pers.get('edad') < 18);
-      return pers.get('edad') < 18;
-    });
-  }
+  // initialize: function() {
+  //   return this.filter(function(pers) {
+  //     console.log(pers.get('edad') < 18);
+  //     return pers.get('edad') < 18;
+  //   });
+  // }
 
 });

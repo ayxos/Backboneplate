@@ -6,48 +6,35 @@ var PeopleView = Backbone.View.extend({
   // template: _.template("<strong> Esta vista se pinta!! <br> nombre: <%= Name %> <br> apellido: <%= Surname %> <br> Edad: <%= Age %> </strong>"),
 
   events: {
-    'click #doit': 'saveModel',
-    "click .new" : "newWine"
+    'click #doit': 'createNew'
   },
 
   initialize: function() {
     this.template = _.template(tpl.get('people'));
     console.log('template: ' + this.template);
+    console.log('collection: ' + this.collection);
     console.log('model: ' + this.model);
     // this.model.listenTo(this.model, 'change', this.render);
   },
 
-  newWine: function(event) {
-    app.navigate("api/entries", true);
-    return false;
+  createNew: function(event) {
+    console.log('createing a new doit : ' + this.collection + ' var ' + this.$el.find('#name').val() + this.$el.find('#surname').val() + this.$el.find('#age').val());
+    this.model = new PeopleModel({
+      name: this.$el.find('#name').val(),
+      surname: this.$el.find('#surname').val(),
+      age: this.$el.find('#age').val()
+    });
+    this.collection.create(this.model);
+
+    new PeopleListItemView({ model: this.model });
+    return this;
   },
 
   detect: function(){
-    alert('hpkjhlkjhlkjhlkhjkl');
+    var t = this.$el.find('#name').val();
+    alert('hpkjhlkjhlkjhlkhjkl : ' + t);
+
   },
-
-  saveModel: function() {
-    console.log('obtengo name : ' + $('#name').val() );
-    this.model.set({
-      name: $('#name').val(),
-      grapes: $('#surname').val(),
-      country: $('#age').val()
-    });
-    if (this.model.isNew()) {
-      var self = this;
-      app.peopleList.create(this.model, {
-        success: function() {
-          alert('now its saved');
-          // app.navigate('wines/'+self.model.id, false);
-        }
-      });
-    } else {
-      this.model.save();
-    }
-
-    return false;
-  },
-
 
   render: function() {
     console.log("PeopleView render");

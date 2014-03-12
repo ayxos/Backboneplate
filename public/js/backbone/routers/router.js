@@ -10,7 +10,9 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
 
   initialize: function() {
-    $('#backbone').html( new PeopleView().render().el );
+    this.peopleCol = new PeopleCollection();
+    this.peopleView = new PeopleView({ collection: this.peopleCol });
+    $('#backbone').html( this.peopleView.render().el );
   },
 
   routes: {
@@ -24,12 +26,14 @@ var AppRouter = Backbone.Router.extend({
 
   before: function(callback) {
     if (this.peopleList) {
-      if (callback) callback();
+      if (callback) {callback();}
     } else {
-      var peopleList = new PeopleCollection();
-      peopleList.fetch({success: function() {
-        $('#sidebar').html( new peopleListView({model: peopleList}).render().el );
-        if (callback) callback();
+      console.log('peopleCol: ' + this.peopleCol);
+      this.peopleCol.fetch({success: function() {
+        console.log('before: ' + this.app.peopleCol);
+        this.peopleColView = new PeopleListView({collection: this.app.peopleCol});
+        $('#sidebar').html( this.peopleColView.render().el );
+        if (callback) {callback();}
       }});
     }
   }
@@ -38,6 +42,6 @@ var AppRouter = Backbone.Router.extend({
 
 tpl.loadTemplates(['people'], function() {
   console.log('iniciando app');
-  var app = new AppRouter();
+  this.app = new AppRouter({});
   Backbone.history.start();
 });

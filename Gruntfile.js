@@ -140,7 +140,7 @@ module.exports = function(grunt) {
         tasks: ['cssmin']
       },
       jade: {
-        files: ['public/js/templates/*.jade'],
+        files: ['public/js/backbone/templates/*.jade'],
         tasks: ['newer:jade','jade']
       },
       backbone: {
@@ -169,8 +169,9 @@ module.exports = function(grunt) {
 
   //production task
   grunt.registerTask('production', ['clean','jade', 'concat', 'jshint', 'uglify', 'cssmin']);
+
   //default task
-  grunt.registerTask('default', ['clean','jade', 'concat', 'jshint', 'cssmin']);
+  grunt.registerTask('default', ['clean','jade', 'concat','jshint', 'cssmin']);
 
   //untest task
   grunt.registerTask('notest', ['clean','jade', 'concat','cssmin']);
