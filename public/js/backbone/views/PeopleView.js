@@ -25,15 +25,7 @@ var PeopleView = Backbone.View.extend({
       age: this.$el.find('#age').val()
     });
     this.collection.create(this.model);
-
-    new PeopleListItemView({ model: this.model });
     return this;
-  },
-
-  detect: function(){
-    var t = this.$el.find('#name').val();
-    alert('hpkjhlkjhlkjhlkhjkl : ' + t);
-
   },
 
   render: function() {

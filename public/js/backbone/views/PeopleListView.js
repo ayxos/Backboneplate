@@ -15,10 +15,6 @@ var PeopleListItemView = Backbone.View.extend({
     this.model.bind("destroy", this.close, this);
   },
 
-  ale:function(){
-    alert('click del');
-  },
-
   delete: function() {
     this.model.destroy({
       success: function() {
@@ -42,14 +38,21 @@ var PeopleListView = Backbone.View.extend({
 
   initialize:function () {
     this.collection.bind("reset", this.render, this);
-    this.collection.bind("add", function (people) {
-      console.log('add new peoplelistItemview');
-      $(this.el).append(new PeopleListItemView({model:people}).render().el);
-    });
+    // this.collection.bind("add", function (people) {
+    //   console.log('add new peoplelistItemview');
+    //   // $(this.el).append(new PeopleListItemView({model:people}).render().el);
+    //   this.render();
+    // });
+    // this.collection.bind("add", this.render, this);
+    this.collection.bind('add', this.add, this);
+  },
+
+  add: function(event){
+    this.collection.reset();
+    this.render();
   },
 
   render:function (eventName) {
-    console.log('render listview' + this.collection);
     _.each(this.collection.models, function (people) {
       $(this.el).append(new PeopleListItemView({model:people}).render().el);
     }, this);
