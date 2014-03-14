@@ -1,15 +1,14 @@
 var PeopleListItemView = Backbone.View.extend({
 
-  tagName:"li",
+  // tagName:"li",
 
   events: {
     'click #dele': 'delete'
   },
 
   initialize:function () {
-    console.log('creating a new list item view');
+    console.log('creating a new list item view ' + this.model);
     // this.template = _.template(tpl.get('people-list-item'));
-    // this.template = _.template("<li> nombre: <%= name %> <br> age: <%= age %> <br> id: <%= _id %> <input id='dele' type='submit' value='Erase'> </li>");
     this.template = _.template("<br><ul><li> name: <%= name %> <br></li> <li>surname: <%= surname %> <br></li> <li>age: <%= age %> <br> </li><li><input id='dele' type='submit' value='Erase'> </li></ul>");
     this.model.bind("change", this.render, this);
     this.model.bind("destroy", this.close, this);
@@ -38,18 +37,7 @@ var PeopleListView = Backbone.View.extend({
 
   initialize:function () {
     this.collection.bind("reset", this.render, this);
-    // this.collection.bind("add", function (people) {
-    //   console.log('add new peoplelistItemview');
-    //   // $(this.el).append(new PeopleListItemView({model:people}).render().el);
-    //   this.render();
-    // });
-    // this.collection.bind("add", this.render, this);
     this.collection.bind('add', this.add, this);
-  },
-
-  add: function(event){
-    this.collection.reset();
-    this.render();
   },
 
   render:function (eventName) {

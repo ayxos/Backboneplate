@@ -25,6 +25,13 @@ var PeopleView = Backbone.View.extend({
       age: this.$el.find('#age').val()
     });
     this.collection.create(this.model);
+
+    this.$el.find('#name').val('');
+    this.$el.find('#surname').val('');
+    this.$el.find('#age').val('');
+
+    $('#sidebar').append(new PeopleListItemView({ model: this.model }).render().el);
+
     return this;
   },
 
