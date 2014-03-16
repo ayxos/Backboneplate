@@ -47,6 +47,28 @@ var tpl = {
   }
 
 };
+var InitView = Backbone.View.extend({
+
+  events: {
+    'click #api': 'goToApi'
+  },
+
+  initialize:function (arg) {
+    this.template = _.template("<p> Welcome to initView </p> <input id='api' type='submit' value='API'>");
+    this.router = arg;
+  },
+
+  goToApi: function() {
+    this.router.navigate("/api", true);
+  },
+
+  render:function (eventName) {
+    console.log('init rendering....');
+    $(this.el).html(this.template());
+    return this;
+  }
+
+});
 var PeopleListItemView = Backbone.View.extend({
 
   tagName:"tr",
@@ -104,15 +126,18 @@ var PeopleView = Backbone.View.extend({
   // template: _.template("<strong> Esta vista se pinta!! <br> nombre: <%= Name %> <br> apellido: <%= Surname %> <br> Edad: <%= Age %> </strong>"),
 
   events: {
+    'click #home': 'home',
     'click #doit': 'createNew'
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.template = _.template(tpl.get('people'));
-    console.log('template: ' + this.template);
-    console.log('collection: ' + this.collection);
-    console.log('model: ' + this.model);
-    // this.model.listenTo(this.model, 'change', this.render);
+    console.log('collection: ' + this.collection + 'router ' + options.router);
+    this.router = options.router;
+  },
+
+  home: function(){
+    Backbone.history.navigate('/', true);
   },
 
   createNew: function(event) {
@@ -143,7 +168,7 @@ var PeopleView = Backbone.View.extend({
   },
 
   render: function() {
-    console.log("PeopleView render");
+    // console.log("PeopleView render");
     $(this.el).html(this.template());
     // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
@@ -161,21 +186,20 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
 
   initialize: function() {
-    this.peopleCol = new PeopleCollection();
-    this.peopleView = new PeopleView({ collection: this.peopleCol });
-    $('#backbone').html( this.peopleView.render().el );
+    console.log('router.js: loading backbone data' );
+    this.initView = new InitView(this);
+    $('#backbone').html( this.initView.render().el );
   },
 
   routes: {
-    ""      : "list"
+    "api" : "getAll"
   },
 
-  list: function() {
-    console.log('router.js: loading backbone data');
-    this.before();
-  },
-
-  before: function(callback) {
+  getAll: function(callback) {
+    this.peopleCol = new PeopleCollection();
+    console.log('this: ' + this);
+    this.peopleView = new PeopleView({ collection: this.peopleCol, router: this });
+    $('#backbone').html( this.peopleView.render().el );
     if (this.peopleList) {
       if (callback) {callback();}
     } else {
@@ -187,6 +211,10 @@ var AppRouter = Backbone.Router.extend({
         if (callback) {callback();}
       }});
     }
+  },
+
+  api: function() {
+    console.log('loading api');
   }
 
 });

@@ -15,6 +15,16 @@ exports.getAll = function (req, res){
   });
 };
 
+exports.getApi = function (req, res){
+  regModel.find(function (err, entries) {
+    if (!err) {
+      res.render('api');
+    } else {
+      console.log(err);
+    }
+  });
+};
+
 exports.getTodo = function (req, res){
   regModel.find(function (err, entries) {
     if (!err) {

@@ -31,6 +31,9 @@ app.get('/api/entries/:id', routes.getById);
 app.put('/api/entries/:id', routes.putById);
 app.delete('/api/entries/:id', routes.deleteById);
 
+// // API BackBone
+// app.get('/api', routes.getApi);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

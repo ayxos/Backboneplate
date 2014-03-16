@@ -6,15 +6,18 @@ var PeopleView = Backbone.View.extend({
   // template: _.template("<strong> Esta vista se pinta!! <br> nombre: <%= Name %> <br> apellido: <%= Surname %> <br> Edad: <%= Age %> </strong>"),
 
   events: {
+    'click #home': 'home',
     'click #doit': 'createNew'
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.template = _.template(tpl.get('people'));
-    console.log('template: ' + this.template);
-    console.log('collection: ' + this.collection);
-    console.log('model: ' + this.model);
-    // this.model.listenTo(this.model, 'change', this.render);
+    console.log('collection: ' + this.collection + 'router ' + options.router);
+    this.router = options.router;
+  },
+
+  home: function(){
+    Backbone.history.navigate('/', true);
   },
 
   createNew: function(event) {
@@ -45,7 +48,7 @@ var PeopleView = Backbone.View.extend({
   },
 
   render: function() {
-    console.log("PeopleView render");
+    // console.log("PeopleView render");
     $(this.el).html(this.template());
     // this.el.innerHTML = this.template(this.model.toJSON());
     return this;

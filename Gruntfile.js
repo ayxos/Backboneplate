@@ -91,21 +91,9 @@ module.exports = function(grunt) {
       }
     },
 
-    cssmin: {
-      build: {
-        files: {
-          'public/css/style.min.css': [ 'public/css/style.css', 'public/vendor/bootstrap/dist/css/bootstrap.min.css' ]
-        }
-      }
-    },
-
     watch: {
       options: {
         event: ['added', 'changed']
-      },
-      stylus: {
-        files: ['public/**/*.css'],
-        tasks: ['cssmin']
       },
       jade: {
         files: ['public/js/backbone/templates/*.jade'],

@@ -10,21 +10,20 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
 
   initialize: function() {
-    this.peopleCol = new PeopleCollection();
-    this.peopleView = new PeopleView({ collection: this.peopleCol });
-    $('#backbone').html( this.peopleView.render().el );
+    console.log('router.js: loading backbone data' );
+    this.initView = new InitView(this);
+    $('#backbone').html( this.initView.render().el );
   },
 
   routes: {
-    ""      : "list"
+    "api" : "getAll"
   },
 
-  list: function() {
-    console.log('router.js: loading backbone data');
-    this.before();
-  },
-
-  before: function(callback) {
+  getAll: function(callback) {
+    this.peopleCol = new PeopleCollection();
+    console.log('this: ' + this);
+    this.peopleView = new PeopleView({ collection: this.peopleCol, router: this });
+    $('#backbone').html( this.peopleView.render().el );
     if (this.peopleList) {
       if (callback) {callback();}
     } else {
@@ -36,6 +35,10 @@ var AppRouter = Backbone.Router.extend({
         if (callback) {callback();}
       }});
     }
+  },
+
+  api: function() {
+    console.log('loading api');
   }
 
 });
