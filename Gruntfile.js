@@ -75,28 +75,6 @@ module.exports = function(grunt) {
 
     clean: ['public/*.html', 'public/js/vendors.min.js', 'public/css/*.min.css', 'public/js/backbone/templates/tpl/*'],
 
-
-    // jade: {
-    //   amd: {
-    //     files: {
-    //       'public/js/backbone/templates/tpl/': ['public/js/backbone/templates/*.jade']
-    //     },
-    //     options: {
-    //       wrap: {
-    //         wrap: false,
-    //         amd: false,
-    //         node: false,
-    //         dependencies: 'jade'
-    //       },
-    //     // options: {
-    //     //   client: true,
-    //     //   wrapper: "jst",
-    //     //   processName: function(str) { return str.match(/^test\/fixtures\/(.*)\.jade$/)[1]; },
-    //     // }
-    //       runtime: true
-    //     }
-    //   }
-    // },
     jade: {
       compile: {
         options: {
@@ -112,16 +90,6 @@ module.exports = function(grunt) {
         } ]
       }
     },
-    // jade: {
-    //   amd: {
-    //     src: ['public/js/backbone/templates/*.jade'],
-    //     dest: 'public/js/backbone/templates/tpl/',
-    //     wrapper: {
-    //       amd: true,
-    //       dependencies: 'jade'
-    //     }
-    //   }
-    // },
 
     cssmin: {
       build: {
@@ -158,8 +126,6 @@ module.exports = function(grunt) {
 
   // Compile Jade templates to JavaScript !!!IMPORTANT there is another contrib from jade to JS
   grunt.loadNpmTasks('grunt-contrib-jade');
-  // Compress & minify CSS
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
   // Remove files
   grunt.loadNpmTasks('grunt-contrib-clean');
   // Compile Jade templates to JavaScript
@@ -168,13 +134,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-newer');
 
   //production task
-  grunt.registerTask('production', ['clean','jade', 'concat', 'jshint', 'uglify', 'cssmin']);
+  grunt.registerTask('production', ['clean','jade', 'concat', 'jshint', 'uglify']);
 
   //default task
-  grunt.registerTask('default', ['clean','jade', 'concat','jshint', 'cssmin']);
+  grunt.registerTask('default', ['clean','jade', 'concat','jshint']);
 
   //untest task
-  grunt.registerTask('notest', ['clean','jade', 'concat','cssmin']);
+  grunt.registerTask('notest', ['clean','jade', 'concat']);
 
 
 };

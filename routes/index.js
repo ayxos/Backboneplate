@@ -8,8 +8,6 @@ exports.getAll = function (req, res){
     if (!err) {
       res.render( 'index', {
           title : 'RestAPI Backbone with Mongoose and Node/Express'
-          // footer : '@2014 by M.A.P.S Powered by Node.js, Express, MongoDB '
-          // entries : entries
       });
     } else {
       console.log(err);
@@ -66,7 +64,7 @@ exports.putById = function (req, res){
       if (!err) {
         console.log("updated");
         //Es imprescindible devolver datos, en este caso las llaves
-        res.send(201, {});
+        res.send(201, entry);
       } else {
         console.log(err);
         res.send(500, "updated error");

@@ -33,7 +33,7 @@ var PeopleListItemView = Backbone.View.extend({
 
 var PeopleListView = Backbone.View.extend({
 
-  // tagName:'ul',
+  tagName:'tbody',
 
   initialize:function () {
     this.collection.bind("reset", this.render, this);

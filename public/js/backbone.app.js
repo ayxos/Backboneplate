@@ -3,29 +3,14 @@ var PeopleModel = Backbone.Model.extend({
 
   initialize: function(){
     console.log("Model has been initzialized");
-  },
-  defaults: {
-    name: 'Untitled',
-    surname: 'Unknown',
-    age: '0'
-  },
-
-  displayString: function() {
-    return this.get('Name');
   }
+
 });
 
 var PeopleCollection = Backbone.Collection.extend({
   idAttribute: '_id',
   model: PeopleModel,
   url: "api/entries",
-
-  // initialize: function() {
-  //   return this.filter(function(pers) {
-  //     console.log(pers.get('edad') < 18);
-  //     return pers.get('edad') < 18;
-  //   });
-  // }
 
 });
 var tpl = {
@@ -97,7 +82,7 @@ var PeopleListItemView = Backbone.View.extend({
 
 var PeopleListView = Backbone.View.extend({
 
-  // tagName:'ul',
+  tagName:'tbody',
 
   initialize:function () {
     this.collection.bind("reset", this.render, this);
@@ -137,7 +122,16 @@ var PeopleView = Backbone.View.extend({
       surname: this.$el.find('#surname').val(),
       age: this.$el.find('#age').val()
     });
-    this.collection.create(this.model);
+    var id;
+    this.collection.create(this.model, {
+      success: function(response) {
+        id = response.get('_id');
+      }
+    });
+
+    this.model.set({
+      '_id': id
+    });
 
     this.$el.find('#name').val('');
     this.$el.find('#surname').val('');
