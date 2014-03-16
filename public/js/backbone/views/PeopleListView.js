@@ -1,6 +1,6 @@
 var PeopleListItemView = Backbone.View.extend({
 
-  // tagName:"li",
+  tagName:"tr",
 
   events: {
     'click #dele': 'delete'
@@ -9,7 +9,7 @@ var PeopleListItemView = Backbone.View.extend({
   initialize:function () {
     console.log('creating a new list item view ' + this.model);
     // this.template = _.template(tpl.get('people-list-item'));
-    this.template = _.template("<br><ul><li> name: <%= name %> <br></li> <li>surname: <%= surname %> <br></li> <li>age: <%= age %> <br> </li><li><input id='dele' type='submit' value='Erase'> </li></ul>");
+    this.template = _.template("<td> <%= name %> </td> <td> <%= surname %> </td> <td> <%= age %> </td> <td> <%= _id %> <td> <input id='dele' type='submit' value='X'> </td>");
     this.model.bind("change", this.render, this);
     this.model.bind("destroy", this.close, this);
   },
@@ -33,7 +33,7 @@ var PeopleListItemView = Backbone.View.extend({
 
 var PeopleListView = Backbone.View.extend({
 
-  tagName:'ul',
+  // tagName:'ul',
 
   initialize:function () {
     this.collection.bind("reset", this.render, this);

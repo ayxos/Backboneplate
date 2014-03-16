@@ -7,7 +7,7 @@ exports.getAll = function (req, res){
   regModel.find(function (err, entries) {
     if (!err) {
       res.render( 'index', {
-          title : 'RestAPI System with Mongoose and Node/Express'
+          title : 'RestAPI Backbone with Mongoose and Node/Express'
           // footer : '@2014 by M.A.P.S Powered by Node.js, Express, MongoDB '
           // entries : entries
       });
@@ -37,7 +37,7 @@ exports.postnew = function (req, res){
   entry.save(function (err) {
     if (!err) {
       console.log("created");
-      res.send(201,{});
+      res.send(201,entry);
     } else {
       console.log(err);
       res.send(500, "created error");

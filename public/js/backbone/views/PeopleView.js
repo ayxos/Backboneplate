@@ -30,7 +30,7 @@ var PeopleView = Backbone.View.extend({
     this.$el.find('#surname').val('');
     this.$el.find('#age').val('');
 
-    $('#sidebar').append(new PeopleListItemView({ model: this.model }).render().el);
+    $('#bbdd').append(new PeopleListItemView({ model: this.model }).render().el);
 
     return this;
   },

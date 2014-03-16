@@ -32,7 +32,7 @@ var AppRouter = Backbone.Router.extend({
       this.peopleCol.fetch({success: function() {
         console.log('before: ' + this.app.peopleCol);
         this.peopleColView = new PeopleListView({collection: this.app.peopleCol});
-        $('#sidebar').html( this.peopleColView.render().el );
+        $('#bbdd').html( this.peopleColView.render().el );
         if (callback) {callback();}
       }});
     }
