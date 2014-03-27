@@ -54,7 +54,8 @@ var InitView = Backbone.View.extend({
   },
 
   initialize:function (arg) {
-    this.template = _.template("<p> Welcome to initView </p> <input id='api' type='submit' value='API'>");
+    // this.template = _.template("<p> Welcome to initView </p> <input id='api' type='submit' value='API'>");
+    this.template = _.template(tpl.get('home'));
     this.router = arg;
   },
 
@@ -67,6 +68,55 @@ var InitView = Backbone.View.extend({
     $(this.el).html(this.template());
     return this;
   }
+
+});
+var ModalView = Backbone.View.extend({
+
+  initialize: function() {
+    this.template = _.template(tpl.get('modal_layout'));
+    console.log('new modal');
+  },
+
+  events: {
+    'click [data-action="close-modal"]': 'close',
+    'click #overlay': 'close'
+  },
+
+  close: function(e) {
+    this.overlay.removeClass('md-overlay md-show');
+    this.closeModal.removeClass('md-show');
+    this.modal.removeClass('md-show');
+    this.modal.removeAttr('style');
+    this.$body.removeAttr('style');
+    this.contentRegion.close();
+  },
+
+  show: function(view) {
+    this.view = view;
+    this.render();
+  },
+
+  onRender: function() {
+    this.$body = $('body');
+    this.overlay = this.$el.find('#overlay');
+    this.closeModal = this.$el.find('[data-action="close-modal"]');
+    this.modal = this.$el.find('.md-modal');
+
+    this.contentRegion.show(this.view);
+
+    this.$body.css({
+      overflow: 'hidden'
+    });
+
+    this.overlay.addClass('md-overlay md-show');
+    this.closeModal.addClass('md-show');
+    this.modal.addClass('md-show');
+  }
+
+  // render: function(){
+  //   $(this.el).html(this.template());
+  //   return this;
+  // }
 
 });
 var PeopleListItemView = Backbone.View.extend({
@@ -127,7 +177,8 @@ var PeopleView = Backbone.View.extend({
 
   events: {
     'click #home': 'home',
-    'click #doit': 'createNew'
+    'click #doit': 'createNew',
+    'click [data-action="openModal"]':'openModal'
   },
 
   initialize: function(options) {
@@ -167,12 +218,35 @@ var PeopleView = Backbone.View.extend({
     return this;
   },
 
+  openModal: function(){
+    // $('#modal').html(new ModalView(this).render().el);
+    var modal = new ModalView();
+    var self = this;
+    var ex = new exModalView({ model: this.model });
+    modal.show(ex);
+
+  },
+
   render: function() {
     // console.log("PeopleView render");
     $(this.el).html(this.template());
     // this.el.innerHTML = this.template(this.model.toJSON());
     return this;
   }
+});
+var exModalView = Backbone.View.extend({
+
+  initialize: function(){
+    this.template = _.template(tpl.get('modal_example'));
+  },
+
+  onRender: function() {
+    this.mdModal = $('.md-modal');
+    this.mdModal.css({
+      width: 'auto'
+    });
+  }
+
 });
 Backbone.View.prototype.close = function () {
   console.log('Closing view ' + this);
@@ -185,14 +259,15 @@ Backbone.View.prototype.close = function () {
 
 var AppRouter = Backbone.Router.extend({
 
-  initialize: function() {
+  routes: {
+    '' : 'home',
+    'api' : 'getAll'
+  },
+
+  home: function(){
     console.log('router.js: loading backbone data' );
     this.initView = new InitView(this);
     $('#backbone').html( this.initView.render().el );
-  },
-
-  routes: {
-    "api" : "getAll"
   },
 
   getAll: function(callback) {
@@ -219,7 +294,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-tpl.loadTemplates(['people'], function() {
+tpl.loadTemplates(['people', 'home', 'modal_layout', 'modal_example'], function() {
   console.log('iniciando app');
   this.app = new AppRouter({});
   Backbone.history.start();

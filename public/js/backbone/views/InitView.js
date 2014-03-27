@@ -5,7 +5,8 @@ var InitView = Backbone.View.extend({
   },
 
   initialize:function (arg) {
-    this.template = _.template("<p> Welcome to initView </p> <input id='api' type='submit' value='API'>");
+    // this.template = _.template("<p> Welcome to initView </p> <input id='api' type='submit' value='API'>");
+    this.template = _.template(tpl.get('home'));
     this.router = arg;
   },
 

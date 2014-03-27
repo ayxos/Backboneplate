@@ -9,14 +9,15 @@ Backbone.View.prototype.close = function () {
 
 var AppRouter = Backbone.Router.extend({
 
-  initialize: function() {
+  routes: {
+    '' : 'home',
+    'api' : 'getAll'
+  },
+
+  home: function(){
     console.log('router.js: loading backbone data' );
     this.initView = new InitView(this);
     $('#backbone').html( this.initView.render().el );
-  },
-
-  routes: {
-    "api" : "getAll"
   },
 
   getAll: function(callback) {
@@ -43,7 +44,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-tpl.loadTemplates(['people'], function() {
+tpl.loadTemplates(['people', 'home', 'modal_layout', 'modal_example'], function() {
   console.log('iniciando app');
   this.app = new AppRouter({});
   Backbone.history.start();

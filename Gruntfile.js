@@ -112,7 +112,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  // Compile Jade templates to JavaScript !!!IMPORTANT there is another contrib from jade to JS
+  // Compile Jade templates to HTML !!!IMPORTANT there is another contrib from jade to JS
   grunt.loadNpmTasks('grunt-contrib-jade');
   // Remove files
   grunt.loadNpmTasks('grunt-contrib-clean');

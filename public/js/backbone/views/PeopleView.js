@@ -7,7 +7,8 @@ var PeopleView = Backbone.View.extend({
 
   events: {
     'click #home': 'home',
-    'click #doit': 'createNew'
+    'click #doit': 'createNew',
+    'click [data-action="openModal"]':'openModal'
   },
 
   initialize: function(options) {
@@ -45,6 +46,15 @@ var PeopleView = Backbone.View.extend({
     $('#bbdd').append(new PeopleListItemView({ model: this.model }).render().el);
 
     return this;
+  },
+
+  openModal: function(){
+    // $('#modal').html(new ModalView(this).render().el);
+    var modal = new ModalView();
+    var self = this;
+    var ex = new exModalView({ model: this.model });
+    modal.show(ex);
+
   },
 
   render: function() {
