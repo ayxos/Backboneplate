@@ -1,6 +1,8 @@
 Backboneplate
 =============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ayxos/Backboneplate.svg)](https://greenkeeper.io/)
+
 a Simple BackbonePlate with node.js
 
 Usage:
